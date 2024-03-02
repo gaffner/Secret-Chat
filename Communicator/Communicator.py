@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Connection import Connection
+from Communicator.Connection import Connection
 import logging
 
 
@@ -9,7 +9,11 @@ class Communicator(ABC):
         self.logger = logging.getLogger('Chat')
 
     @abstractmethod
-    def send(self, data: bytes) -> None:
+    def wait_for_connection(self):
+        pass
+
+    @abstractmethod
+    def send(self, data: bytes):
         """
         send bytes to target user
         """
