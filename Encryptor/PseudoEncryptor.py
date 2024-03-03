@@ -1,9 +1,10 @@
 from Encryptor import Encryptor
 
 
-class AsymmetricEncryptor(Encryptor):
+class PseudoEncryptor(Encryptor):
+
     def encrypt(self, data: bytes) -> bytes:
-        pass
+        return data
 
     def decrypt(self, data: bytes) -> bytes:
-        pass
+        return data

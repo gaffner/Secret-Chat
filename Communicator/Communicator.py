@@ -5,8 +5,8 @@ import logging
 
 class Communicator(ABC):
     def __init__(self, connection: Connection):
-        self.connection = connection
-        self.logger = logging.getLogger('Chat')
+        self._connection = connection
+        self._logger = logging.getLogger('Chat')
 
     @abstractmethod
     def wait_for_connection(self):
