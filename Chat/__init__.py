@@ -1,1 +1,1 @@
-from Chat.Chat import *
+from Chat.Chat import Chat

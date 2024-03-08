@@ -1,4 +1,4 @@
-from Communicator.Connection import Connection
+from Communication.Connection import Connection
 from typing import Tuple
 
 

@@ -1,11 +1,14 @@
 import logging
-from abc import ABC, abstractmethod
 
-from Communicator.Communicator import Communicator
-from Communicator.Connection import Connection
-from Encryptor.Encryptor import Encryptor
-from Encryptor.Factory import EncryptorFactory
-from Encryptor.Configuration import Encryption
+from Settings import SETTINGS
+
+from Communication.Communicator import Communicator
+from Communication.Connection import Connection
+from Communication.Factory import CommunicatorFactory
+
+from Encryption.Encryptor import Encryptor
+from Encryption.Configuration import EncryptionConfiguration
+from Encryption.Factory import EncryptorFactory
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',
@@ -13,17 +16,20 @@ logging.basicConfig(level=logging.DEBUG,
                     )
 
 
-class Chat(ABC):
-    def __init__(self, connection: Connection, encryption: Encryption):
-        self._communicator: Communicator = Communicator(connection)
+class Chat:
+    def __init__(self, connection: Connection, encryption: EncryptionConfiguration):
+        self._communicator: Communicator = CommunicatorFactory.create(connection)
         self._encryptor: Encryptor = EncryptorFactory.create(encryption)
+        self._encoding = SETTINGS['Encoding']
+        self.is_server = connection.is_server
 
-    def send_data(self, data: bytes):
-        encrypted_data = self._encryptor.encrypt(data)
+    def wait_for_connection(self):
+        self._communicator.wait_for_connection()
 
+    def send_text(self, text: str):
+        encrypted_data = self._encryptor.encrypt(text.encode(self._encoding))
         self._communicator.send(encrypted_data)
 
-    def receive_data(self) -> bytes:
+    def receive_text(self) -> str:
         encrypted_data = self._communicator.receive()
-
-        return self._encryptor.decrypt(encrypted_data)
+        return self._encryptor.decrypt(encrypted_data).decode(self._encoding)

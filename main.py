@@ -1,19 +1,18 @@
-import logging
+from Chat import Chat
+from Interactor.ConsoleInteractor import ConsoleInteractor
 
-from Communicator import TCPCommunicator
-from Communicator.Connection import TCPConnection
+from Communication.Connection import TCPConnection
+from Encryption.Configuration import PseudoConfiguration
 
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S'
-                    )
 
-server_config = TCPConnection(address=('localhost', 1726), is_server=True)
-server = TCPCommunicator(server_config)
-server.wait_for_connection()
+def main():
+    connection = TCPConnection(is_server=True, address=('0.0.0.0', 1726))
+    encryption = PseudoConfiguration(is_initializer=True)
+    chat = Chat(connection=connection, encryption=encryption)
+    interactor = ConsoleInteractor(chat)
 
-while True:
-    data = input('Write your text: ')
-    server.send(data.encode('ascii'))
-    response = server.receive()
-    print(f'Client: {response.decode("ascii")}')
+    interactor.interaction_loop()
+
+
+if __name__ == '__main__':
+    main()

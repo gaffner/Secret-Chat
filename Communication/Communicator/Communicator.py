@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
-from Communicator.Connection import Connection
-import logging
+from Communication.Connection import Connection
+from Settings import SETTINGS
 
 
 class Communicator(ABC):
     def __init__(self, connection: Connection):
         self._connection = connection
-        self._logger = logging.getLogger('Chat')
+        self._buffer_size = SETTINGS['Buffer size']
 
     @abstractmethod
     def wait_for_connection(self):

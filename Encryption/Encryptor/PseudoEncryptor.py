@@ -1,4 +1,4 @@
-from Encryptor import Encryptor
+from Encryption.Encryptor import Encryptor
 
 
 class PseudoEncryptor(Encryptor):

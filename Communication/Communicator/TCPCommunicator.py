@@ -1,11 +1,11 @@
 import socket
+import logging
 
-from Communicator import Communicator
-from Communicator.Connection import TCPConnection
+from Communication.Communicator import Communicator
+from Communication.Connection import TCPConnection
 
 
 class TCPCommunicator(Communicator):
-    buffer_size: int = 1024
 
     def __init__(self, connection: TCPConnection):
         super().__init__(connection)
@@ -29,7 +29,7 @@ class TCPCommunicator(Communicator):
         self._listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._listener.bind(self._connection.address)
         self._listener.listen()
-        self._logger.info(f"Starting to listen on address {self._connection.address}")
+        logging.getLogger('Chat').info(f"Starting to listen on address {self._connection.address}")
 
     def _init_client(self):
         """
@@ -43,16 +43,16 @@ class TCPCommunicator(Communicator):
         blocking function, waits until new connection
         """
         if self._connection.is_server:
-            self._logger.debug(f'Waiting for new connection, server mode: {self._connection.is_server}')
+            logging.getLogger('Chat').debug(f'Waiting for new connection, server mode: {self._connection.is_server}')
             client_socket, client_address = self._listener.accept()
-            self._logger.debug(f'Accepted new connection from client {client_address}')
+            logging.getLogger('Chat').debug(f'Accepted new connection from client {client_address}')
             self.socket = client_socket
         else:
             self.socket.connect(self._connection.address)
-            self._logger.info(f'Connected to server {self._connection.address}')
+            logging.getLogger('Chat').info(f'Connected to server {self._connection.address}')
 
     def send(self, data: bytes):
         self.socket.send(data)
 
     def receive(self) -> bytes:
-        return self.socket.recv(self.buffer_size)
+        return self.socket.recv(self._buffer_size)
