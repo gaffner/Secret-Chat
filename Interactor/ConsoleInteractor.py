@@ -15,10 +15,10 @@ class ConsoleInteractor(Interactor):
         should_continue = True
 
         if self._chat.is_server:
-            print(self.receive_message())
+            print(f'Client: {self.receive_message()}')
 
         while should_continue:
-            text = input('Enter text: ')
+            text = input('You: ')
 
             if text == 'exit':
                 should_continue = False
@@ -26,5 +26,5 @@ class ConsoleInteractor(Interactor):
 
             self._chat.send_text(text)
             response = self.receive_message()
-            print(f'Response: {response}')
+            print(f'Client: {response}')
 
