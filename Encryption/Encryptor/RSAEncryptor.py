@@ -1,6 +1,8 @@
 import rsa
 import secrets
 from typing import Generator
+from Crypto.Cipher import AES
+
 
 from Encryption.Encryptor import Encryptor
 from Encryption.Configuration import RSAConfiguration
@@ -11,11 +13,12 @@ class RSAEncryptor(Encryptor):
     def __init__(self, encryption: RSAConfiguration):
         super().__init__(encryption)
         self.is_initiator = encryption.is_initiator
+        self.aes_cipher = None
         self.keys_setup()
 
     @property
-    def session_key(self):
-        return self._encryption.session_key
+    def full_session_key(self):
+        return self._encryption.session_key + self.aes_cipher.nonce
 
     @property
     def private_key(self):
@@ -27,13 +30,17 @@ class RSAEncryptor(Encryptor):
 
     @property
     def encrypted_session_key(self):
-        return rsa.encrypt(self.session_key, self._encryption.public_key)
+        return rsa.encrypt(self.full_session_key, self._encryption.public_key)
 
     def set_public_key(self, public_key: bytes):
         self._encryption.public_key = rsa.PublicKey.load_pkcs1(public_key)
 
     def set_decrypted_session_key(self, encrypted_session_key: bytes):
-        self._encryption.session_key = rsa.decrypt(encrypted_session_key, self._encryption.private_key)
+        full_session_key = rsa.decrypt(encrypted_session_key, self._encryption.private_key)
+        session_key, nonce = full_session_key[0:16], full_session_key[16:]
+
+        self._encryption.session_key, self._encryption.nonce = session_key, nonce
+        self.aes_cipher = AES.new(session_key, AES.MODE_EAX, nonce=nonce)
 
     def keys_setup(self):
         if self.is_initiator:
@@ -45,8 +52,9 @@ class RSAEncryptor(Encryptor):
         self._encryption.public_key, self._encryption.private_key = rsa.newkeys(SETTINGS['encryption']['bits'])
 
     def generate_session_key(self):
-        # self._encryption.session_key = secrets.token_bytes(SETTINGS['encryption']['session']['key length'])
-        self._encryption.session_key = b'Gefen'
+        self._encryption.session_key = secrets.token_bytes(SETTINGS['encryption']['session']['key length'])
+        self.aes_cipher = AES.new(self._encryption.session_key, AES.MODE_EAX)
+        self._encryption.nonce = self.aes_cipher.nonce
 
     @property
     def handshake(self) -> Generator:
@@ -66,17 +74,9 @@ class RSAEncryptor(Encryptor):
         for stage in stages:
             yield stage()
 
-    @staticmethod
-    def xor_bytes(data: bytes, key: bytes):
-        encrypted = []
-
-        for i in range(len(data)):
-            encrypted.append(data[i] ^ key[i % len(key)])
-
-        return bytes(encrypted)
-
     def encrypt(self, data: bytes) -> bytes:
-        return RSAEncryptor.xor_bytes(data, self.session_key)
+        return self.aes_cipher.encrypt(data)
 
     def decrypt(self, data: bytes) -> bytes:
-        return RSAEncryptor.xor_bytes(data, self.session_key)
+        cipher = AES.new(self._encryption.session_key, AES.MODE_EAX, nonce=self._encryption.nonce)
+        return cipher.decrypt(data)

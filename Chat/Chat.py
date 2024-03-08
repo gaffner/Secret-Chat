@@ -50,4 +50,9 @@ class Chat:
 
     def receive_text(self) -> str:
         encrypted_data = self._communicator.receive()
-        return self._encryptor.decrypt(encrypted_data).decode(self._encoding)
+        decrypted = self._encryptor.decrypt(encrypted_data)
+
+        try:
+            return decrypted.decode(self._encoding)
+        except UnicodeDecodeError:
+            logging.getLogger('Chat').error(f"Error trying convert {decrypted} to {self._encoding} format")
