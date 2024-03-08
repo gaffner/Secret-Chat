@@ -1,4 +1,12 @@
 {
-  "Buffer size": 1024,
-  "Encoding": "ascii"
+  "communication": {
+    "buffer size": 1024,
+    "encoding": "ascii"
+  },
+  "encryption": {
+    "bits": 2048,
+    "session": {
+      "key length": 16
+    }
+  }
 }

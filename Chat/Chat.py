@@ -20,11 +20,12 @@ class Chat:
     def __init__(self, connection: Connection, encryption: EncryptionConfiguration):
         self._communicator: Communicator = CommunicatorFactory.create(connection)
         self._encryptor: Encryptor = EncryptorFactory.create(encryption)
-        self._encoding = SETTINGS['Encoding']
+        self._encoding = SETTINGS['communication']['encoding']
         self.is_server = connection.is_server
 
     def wait_for_connection(self):
         self._communicator.wait_for_connection()
+        for message in self._encryptor
 
     def send_text(self, text: str):
         encrypted_data = self._encryptor.encrypt(text.encode(self._encoding))

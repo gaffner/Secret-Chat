@@ -2,4 +2,4 @@ from pydantic import BaseModel
 
 
 class EncryptionConfiguration(BaseModel):
-    is_initializer: bool
+    is_initiator: bool

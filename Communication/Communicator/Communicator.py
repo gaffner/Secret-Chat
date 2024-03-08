@@ -6,7 +6,7 @@ from Settings import SETTINGS
 class Communicator(ABC):
     def __init__(self, connection: Connection):
         self._connection = connection
-        self._buffer_size = SETTINGS['Buffer size']
+        self._buffer_size = SETTINGS['communication']['buffer size']
 
     @abstractmethod
     def wait_for_connection(self):

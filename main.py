@@ -7,7 +7,7 @@ from Encryption.Configuration import PseudoConfiguration
 
 def main():
     connection = TCPConnection(is_server=True, address=('0.0.0.0', 1726))
-    encryption = PseudoConfiguration(is_initializer=True)
+    encryption = PseudoConfiguration(is_initiator=True)
     chat = Chat(connection=connection, encryption=encryption)
     interactor = ConsoleInteractor(chat)
 
