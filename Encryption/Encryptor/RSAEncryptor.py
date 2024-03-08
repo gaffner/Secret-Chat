@@ -1,8 +1,9 @@
+import logging
+from typing import Generator
+
 import rsa
 import secrets
-from typing import Generator
 from Crypto.Cipher import AES
-
 
 from Encryption.Encryptor import Encryptor
 from Encryption.Configuration import RSAConfiguration
@@ -13,12 +14,11 @@ class RSAEncryptor(Encryptor):
     def __init__(self, encryption: RSAConfiguration):
         super().__init__(encryption)
         self.is_initiator = encryption.is_initiator
-        self.aes_cipher = None
         self.keys_setup()
 
     @property
     def full_session_key(self):
-        return self._encryption.session_key + self.aes_cipher.nonce
+        return self._encryption.session_key + self._encryption.nonce
 
     @property
     def private_key(self):
@@ -40,7 +40,7 @@ class RSAEncryptor(Encryptor):
         session_key, nonce = full_session_key[0:16], full_session_key[16:]
 
         self._encryption.session_key, self._encryption.nonce = session_key, nonce
-        self.aes_cipher = AES.new(session_key, AES.MODE_EAX, nonce=nonce)
+        logging.getLogger('Chat').error(f"Nonce is {nonce} and key is {session_key}")
 
     def keys_setup(self):
         if self.is_initiator:
@@ -53,8 +53,7 @@ class RSAEncryptor(Encryptor):
 
     def generate_session_key(self):
         self._encryption.session_key = secrets.token_bytes(SETTINGS['encryption']['session']['key length'])
-        self.aes_cipher = AES.new(self._encryption.session_key, AES.MODE_EAX)
-        self._encryption.nonce = self.aes_cipher.nonce
+        self._encryption.nonce = secrets.token_bytes(16)
 
     @property
     def handshake(self) -> Generator:
@@ -75,7 +74,8 @@ class RSAEncryptor(Encryptor):
             yield stage()
 
     def encrypt(self, data: bytes) -> bytes:
-        return self.aes_cipher.encrypt(data)
+        cipher = AES.new(self._encryption.session_key, AES.MODE_EAX, nonce=self._encryption.nonce)
+        return cipher.encrypt(data)
 
     def decrypt(self, data: bytes) -> bytes:
         cipher = AES.new(self._encryption.session_key, AES.MODE_EAX, nonce=self._encryption.nonce)

@@ -55,4 +55,4 @@ class Chat:
         try:
             return decrypted.decode(self._encoding)
         except UnicodeDecodeError:
-            logging.getLogger('Chat').error(f"Error trying convert {decrypted} to {self._encoding} format")
+            logging.getLogger('Chat').debug(f"Error trying convert {decrypted} to {self._encoding} format")
