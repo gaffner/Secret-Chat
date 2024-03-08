@@ -24,8 +24,19 @@ class Chat:
         self.is_server = connection.is_server
 
     def wait_for_connection(self):
+        """
+        iterate over the handshake stages of the given encryptor.
+        if the stage is function - execute it with the peer message.
+        if the stage is bytes - send it to the peer.
+        :return:
+        """
         self._communicator.wait_for_connection()
-        for message in self._encryptor
+        for stage in self._encryptor.handshake:
+            if callable(stage):
+                peer_message = self._communicator.receive()
+                stage(peer_message)
+            else:
+                self._communicator.send(stage)
 
     def send_text(self, text: str):
         encrypted_data = self._encryptor.encrypt(text.encode(self._encoding))

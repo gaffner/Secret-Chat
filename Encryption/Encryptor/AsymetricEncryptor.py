@@ -38,20 +38,20 @@ class AsymmetricEncryptor(Encryptor):
     @property
     def handshake(self) -> Generator:
         """
-        Returns the handshake sequence of the Asymmetric Encryptor.
-        Each item of the list is lambda object, which will be executed on each
+        returns the handshake sequence of the Asymmetric Encryptor.
+        each item of the list is lambda object, which will be executed on each
         iteration of the generator returns from the function. this allows the encryptor
         to set values according to some calculation of the peer data, and then return it
         on the next message. for example, encrypting the session key with the given public key.
         :return: Generator
         """
         if self.is_initiator:
-            messages = [lambda: self._encryption.public_key, lambda: self.set_session_key]
+            stages = [lambda: self._encryption.public_key, lambda: self.set_session_key]
         else:
-            messages = [lambda: self.set_public_key, lambda: self.session_key]
+            stages = [lambda: self.set_public_key, lambda: self.session_key]
 
-        for message in messages:
-            yield message()
+        for stage in stages:
+            yield stage()
 
     def encrypt(self, data: bytes) -> bytes:
         pass
