@@ -3,12 +3,12 @@ import secrets
 from typing import Generator
 
 from Encryption.Encryptor import Encryptor
-from Encryption.Configuration import AsymmetricConfiguration
+from Encryption.Configuration import RSAConfiguration
 from Settings import SETTINGS
 
 
-class AsymmetricEncryptor(Encryptor):
-    def __init__(self, encryption: AsymmetricConfiguration):
+class RSAEncryptor(Encryptor):
+    def __init__(self, encryption: RSAConfiguration):
         super().__init__(encryption)
         self.is_initiator = encryption.is_initiator
         self.keys_setup()
@@ -27,25 +27,26 @@ class AsymmetricEncryptor(Encryptor):
 
     @property
     def encrypted_session_key(self):
-        return rsa.encrypt(self.session_key, self.public_key)
+        return rsa.encrypt(self.session_key, self._encryption.public_key)
 
     def set_public_key(self, public_key: bytes):
-        self._encryption.public_key = public_key
+        self._encryption.public_key = rsa.PublicKey.load_pkcs1(public_key)
 
     def set_decrypted_session_key(self, encrypted_session_key: bytes):
-        self._encryption.session_key = rsa.decrypt(encrypted_session_key, self.private_key)
+        self._encryption.session_key = rsa.decrypt(encrypted_session_key, self._encryption.private_key)
 
     def keys_setup(self):
         if self.is_initiator:
-            self.generate_asymmetric_keys()
+            self.generate_rsa_keys()
         else:
             self.generate_session_key()
 
-    def generate_asymmetric_keys(self):
-        self._encryption.private_key, self._encryption.public_key = rsa.newkeys(SETTINGS['encryption']['bits'])
+    def generate_rsa_keys(self):
+        self._encryption.public_key, self._encryption.private_key = rsa.newkeys(SETTINGS['encryption']['bits'])
 
     def generate_session_key(self):
-        self._encryption.session_key = secrets.token_bytes(SETTINGS['encryption']['session']['key length'])
+        # self._encryption.session_key = secrets.token_bytes(SETTINGS['encryption']['session']['key length'])
+        self._encryption.session_key = b'Gefen'
 
     @property
     def handshake(self) -> Generator:
@@ -65,8 +66,17 @@ class AsymmetricEncryptor(Encryptor):
         for stage in stages:
             yield stage()
 
+    @staticmethod
+    def xor_bytes(data: bytes, key: bytes):
+        encrypted = []
+
+        for i in range(len(data)):
+            encrypted.append(data[i] ^ key[i % len(key)])
+
+        return bytes(encrypted)
+
     def encrypt(self, data: bytes) -> bytes:
-        pass
+        return RSAEncryptor.xor_bytes(data, self.session_key)
 
     def decrypt(self, data: bytes) -> bytes:
-        pass
+        return RSAEncryptor.xor_bytes(data, self.session_key)

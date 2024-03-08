@@ -38,10 +38,10 @@ class Chat:
         for stage in self._encryptor.handshake:
             if callable(stage):
                 peer_message = self._communicator.receive()
-                logging.getLogger('Chat').info(f"Received message from client, send it to encryptor")
+                logging.getLogger('Chat').info(f"Received handshake stage from client, send it to encryptor")
                 stage(peer_message)
             else:
-                logging.getLogger('Chat').info(f"Sending message from encryptor to peer")
+                logging.getLogger('Chat').info(f"Sending handshake stage from encryptor to peer")
                 self._communicator.send(stage)
 
     def send_text(self, text: str):

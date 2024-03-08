@@ -2,13 +2,13 @@ from Chat import Chat
 from Interactor.ConsoleInteractor import ConsoleInteractor
 
 from Communication.Connection import TCPConnection
-from Encryption.Configuration import AsymmetricConfiguration
+from Encryption.Configuration import RSAConfiguration
 
 
 def main():
     # initialize configurations for communication and encryption
-    connection = TCPConnection(is_server=True, address=('0.0.0.0', 1726))
-    encryption = AsymmetricConfiguration(is_initiator=True)
+    connection = TCPConnection(is_server=False, address=('127.0.0.1', 1726))
+    encryption = RSAConfiguration(is_initiator=False)
 
     # initialize chat and wait for connections
     chat = Chat(connection=connection, encryption=encryption)

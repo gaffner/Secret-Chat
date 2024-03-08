@@ -1,6 +1,6 @@
 {
   "communication": {
-    "buffer size": 1024,
+    "buffer size": 10240,
     "encoding": "ascii"
   },
   "encryption": {

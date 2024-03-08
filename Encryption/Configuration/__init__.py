@@ -1,3 +1,3 @@
 from Encryption.Configuration.EncryptionConfiguration import EncryptionConfiguration
-from Encryption.Configuration.AsymmetricConfiguration import AsymmetricConfiguration
+from Encryption.Configuration.RSAConfiguration import RSAConfiguration
 from Encryption.Configuration.PseudoConfiguration import PseudoConfiguration
