@@ -13,7 +13,6 @@ class ConsoleInteractor(Interactor):
 
     def interaction_loop(self):
         should_continue = True
-        self._chat.wait_for_connection()
 
         if self._chat.is_server:
             print(self.receive_message())

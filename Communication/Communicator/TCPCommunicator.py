@@ -51,6 +51,8 @@ class TCPCommunicator(Communicator):
             self.socket.connect(self._connection.address)
             logging.getLogger('Chat').info(f'Connected to server {self._connection.address}')
 
+        logging.getLogger('Chat').info(f"Connection Established")
+
     def send(self, data: bytes):
         self.socket.send(data)
 

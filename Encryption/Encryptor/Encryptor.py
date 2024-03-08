@@ -7,8 +7,8 @@ class Encryptor(ABC):
     def __init__(self, encryption: EncryptionConfiguration):
         self._encryption = encryption
 
-    @abstractmethod
     @property
+    @abstractmethod
     def handshake(self) -> Generator:
         pass
 

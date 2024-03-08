@@ -15,13 +15,25 @@ class AsymmetricEncryptor(Encryptor):
 
     @property
     def session_key(self):
-        return
+        return self._encryption.session_key
+
+    @property
+    def private_key(self):
+        return self._encryption.private_key.save_pkcs1()
+
+    @property
+    def public_key(self):
+        return self._encryption.public_key.save_pkcs1()
+
+    @property
+    def encrypted_session_key(self):
+        return rsa.encrypt(self.session_key, self.public_key)
 
     def set_public_key(self, public_key: bytes):
         self._encryption.public_key = public_key
 
-    def set_session_key(self, session_key: bytes):
-        self._encryption.session_key = session_key
+    def set_decrypted_session_key(self, encrypted_session_key: bytes):
+        self._encryption.session_key = rsa.decrypt(encrypted_session_key, self.private_key)
 
     def keys_setup(self):
         if self.is_initiator:
@@ -46,9 +58,9 @@ class AsymmetricEncryptor(Encryptor):
         :return: Generator
         """
         if self.is_initiator:
-            stages = [lambda: self._encryption.public_key, lambda: self.set_session_key]
+            stages = [lambda: self.public_key, lambda: self.set_decrypted_session_key]
         else:
-            stages = [lambda: self.set_public_key, lambda: self.session_key]
+            stages = [lambda: self.set_public_key, lambda: self.encrypted_session_key]
 
         for stage in stages:
             yield stage()
