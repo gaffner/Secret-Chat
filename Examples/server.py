@@ -7,8 +7,7 @@ from Encryption.Configuration import RSAConfiguration
 
 def main():
     # initialize configurations for communication and encryption
-    connection = UDPConnection(is_server=True, source=('0.0.0.0', 1726), destination=('127.0.0.1', 1728),
-                               signaling_server=('127.0.0.1', 1337))
+    connection = UDPConnection(is_server=True, source=('0.0.0.0', 1726), signaling_server=('vps', 8080))
     encryption = RSAConfiguration(is_initiator=True)
 
     # initialize chat and wait for connections

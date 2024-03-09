@@ -16,6 +16,8 @@ def main():
     """
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(LISTENING_ADDRESS)
+
+    print(f'listening on {LISTENING_ADDRESS}')
     server_socket.listen()
 
     while True:

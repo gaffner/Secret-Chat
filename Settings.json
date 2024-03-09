@@ -1,7 +1,10 @@
 {
   "communication": {
     "buffer size": 10240,
-    "encoding": "ascii"
+    "encoding": "ascii",
+    "udp": {
+      "communication port": 1728
+    }
   },
   "encryption": {
     "bits": 2048,

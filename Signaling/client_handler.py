@@ -16,6 +16,7 @@ def get_signal_message(ip, port):
 
 def handle_client(sock: socket.socket):
     try:
+        print(f'Starting handle {sock.getsockname()}')
         message = json.loads(sock.recv(1024))
         ip, port = message['ip'], message['port']
         global peer
