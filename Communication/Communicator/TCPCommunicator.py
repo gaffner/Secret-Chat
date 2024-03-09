@@ -9,7 +9,7 @@ class TCPCommunicator(Communicator):
 
     def __init__(self, connection: TCPConnection):
         super().__init__(connection)
-        self.socket: socket.socket
+        self._socket: socket.socket
         self._listener: socket.socket
         self._init_socket()
 
@@ -35,7 +35,7 @@ class TCPCommunicator(Communicator):
         """
         init socket for client mode
         """
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # noinspection PyAttributeOutsideInit
     def wait_for_connection(self):
@@ -46,15 +46,15 @@ class TCPCommunicator(Communicator):
             logging.getLogger('Chat').debug(f'Waiting for new connection, server mode: {self._connection.is_server}')
             client_socket, client_address = self._listener.accept()
             logging.getLogger('Chat').debug(f'Accepted new connection from client {client_address}')
-            self.socket = client_socket
+            self._socket = client_socket
         else:
-            self.socket.connect(self._connection.address)
+            self._socket.connect(self._connection.address)
             logging.getLogger('Chat').info(f'Connected to server {self._connection.address}')
 
         logging.getLogger('Chat').info(f"Connection Established")
 
     def send(self, data: bytes):
-        self.socket.send(data)
+        self._socket.send(data)
 
     def receive(self) -> bytes:
-        return self.socket.recv(self._buffer_size)
+        return self._socket.recv(self._buffer_size)

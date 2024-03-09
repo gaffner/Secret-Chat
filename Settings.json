@@ -3,7 +3,9 @@
     "buffer size": 10240,
     "encoding": "ascii",
     "udp": {
-      "communication port": 1728
+      "communication port": 1728,
+      "sleep interval": 2,
+      "resolve service": "http://ifconfig.me"
     }
   },
   "encryption": {

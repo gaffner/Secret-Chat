@@ -3,6 +3,6 @@ from typing import Tuple
 
 
 class UDPConnection(Connection):
-    source: Tuple[str, int]
-    destination: Tuple[str, int]
+    source: Tuple[str, int] = None
+    destination: Tuple[str, int] = None
     signaling_server: Tuple[str, int]
