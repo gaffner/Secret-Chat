@@ -1,14 +1,14 @@
 from Chat import Chat
 from Interactor.ConsoleInteractor import ConsoleInteractor
 
-from Communication.Connection import TCPConnection
+from Communication.Connection import UDPConnection
 from Encryption.Configuration import RSAConfiguration
 
 
 def main():
     # initialize configurations for communication and encryption
-    connection = TCPConnection(is_server=False, address=('127.0.0.1', 1726))
-    encryption = RSAConfiguration(is_initiator=False)
+    connection = UDPConnection(is_server=False, signaling_server=('127.0.0.1', 1337))
+    encryption = RSAConfiguration(is_initiator=True)
 
     # initialize chat and wait for connections
     chat = Chat(connection=connection, encryption=encryption)
