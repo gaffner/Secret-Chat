@@ -3,7 +3,7 @@
     "buffer size": 10240,
     "encoding": "ascii",
     "udp": {
-      "communication port": 1728,
+      "communication port": 17228,
       "sleep interval": 2,
       "signaling server": "yafushim.com",
       "resolve service": "http://ifconfig.me",
