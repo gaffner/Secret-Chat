@@ -5,7 +5,9 @@
     "udp": {
       "communication port": 1728,
       "sleep interval": 2,
-      "resolve service": "http://ifconfig.me"
+      "signaling server": "yafushim.com",
+      "resolve service": "http://ifconfig.me",
+      "external ip": null
     }
   },
   "encryption": {

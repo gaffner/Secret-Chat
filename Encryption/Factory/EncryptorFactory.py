@@ -1,5 +1,5 @@
 from Encryption.Configuration import EncryptionConfiguration
-from Encryption.Factory.EncryptionMapping import mapping
+from Encryption.Factory.Mapping import mapping
 
 
 class EncryptorFactory:

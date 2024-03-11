@@ -1,5 +1,5 @@
 from Communication.Connection import Connection
-from Communication.Factory.CommunicationMapping import mapping
+from Communication.Factory.Mapping import mapping
 
 
 class CommunicatorFactory:

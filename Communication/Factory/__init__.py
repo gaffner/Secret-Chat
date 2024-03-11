@@ -1,2 +1,2 @@
 from Communication.Factory.CommunicatorFactory import CommunicatorFactory
-from Communication.Factory.CommunicationMapping import mapping
+from Communication.Factory.Mapping import mapping
