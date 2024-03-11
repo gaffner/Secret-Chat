@@ -1,8 +1,8 @@
 # Secret Chat
 End to End encrypted and modular chat, with the ability to support a
-variety of communications and encryption.
+variety of communication and encryption types.
 
-### Supported communication types:
+### Supported communications:
 * <b>Client Server Architecture</b> - Regular Client-Server mode, over <i>TCP</i> socket (called just `TCP` in
 the code for simpler name) Exists in the program only to show her ability to be modular, and also to test other modules
 (currently only encryption-related) without the need to use the more complicated way of communication, UDP Hole punching.
@@ -11,4 +11,8 @@ and then the "client" communicate to him over this "Hole". This communication mo
 NAT Tables (like most of the end users) to communicate directly, without the need of middle server, and therefor the most secured.
 
 > [!NOTE]
-> Essential details that users should not overlook, even when browsing quickly.
+> In order to use this communication technique, one need to setup the <i>Signaling Server</i>, located inside the
+> `Signaling` directory, on a server with at least one port exposed to the internet (for example, VPS).
+> The purpose of this server is to coordinate the NAT Hollowing porcess between the two peers. Currently, the code of this
+> signaling server is basically a POC, and therefore not stable and scalable, but it can easly be replaces by another signaling server,
+> as it's protocol will be described later.
