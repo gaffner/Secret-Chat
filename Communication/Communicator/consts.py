@@ -1,4 +1,4 @@
 class UDPConsts:
-    Hello = 'Hello'
-    HollowMessage = 'Hollow Message'
+    Hello = b'Hello'
+    HollowMessage = b'Hollow Message'
 
