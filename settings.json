@@ -4,7 +4,7 @@
     "encoding": "ascii",
     "udp": {
       "communication port": 17228,
-      "sleep interval": 2,
+      "sleep interval": 5,
       "signaling server": "yafushim.com",
       "resolve service": "http://ifconfig.me",
       "external ip": null

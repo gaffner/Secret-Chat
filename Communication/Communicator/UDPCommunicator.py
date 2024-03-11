@@ -4,8 +4,10 @@ import logging
 import json
 import time
 
-from Communication.Communicator import Communicator, UDPConsts
+from Communication.Communicator import Communicator
 from Communication.Connection import UDPConnection
+from Communication.Communicator.consts import UDPConsts
+
 from Settings import SETTINGS
 
 
@@ -33,6 +35,9 @@ class UDPCommunicator(Communicator):
         if self._connection.is_server:
             self._server_udp_hollow()
         else:
+            # wait for the server to hollow his NAT
+            time.sleep(SETTINGS["communication"]["udp"]["sleep interval"])
+            # Make connection to the target server
             self._client_udp_hollow()
 
     def _server_udp_hollow(self):
