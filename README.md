@@ -20,3 +20,52 @@ NAT Tables (like most of the end users) to communicate directly, without the nee
 > 
 ![image](https://i.imgur.com/1RH4oua.png)
 
+### Supported Encryption
+* <b>RSA</b> - the recommended way of encryption. This encryption usa RSA for the keys exchange part, and then using AES
+to encrypt the session communication. All the information needed in order to encrypt the session is exchanged during the
+handhskae process, and it goes as follows:
+  1. The server generate pair of RSA keys, private and public
+  2. The client generate 16 bytes of symmetric AES key
+  3. The server send the public key to the client
+  4. The client encrypt his session key using the given public key, and send the encrypted result to the server
+  5. The server decrypt the encrypted session key using his private key, and from now on the communication will be
+  encrypted using this key
+
+![image](https://i.imgur.com/lVx8III.png)
+
+* <b>Pseudo Encryption</b> - Used mostly for communication tests, without the need to use the complex RSA encryption.
+
+### How to use?
+```bash
+pip install -r requirments.txt
+```
+And then run the project using Pycharm/Visual code. The `server.py` and `client.py` in the examples directory simulates
+Server and a Client, using the UDP Hole Punching communication method + RSA encryption.
+Of curse the communication type and encryption type can be changed very simply:
+
+```python
+from Chat import Chat
+from Interactor.ConsoleInteractor import ConsoleInteractor
+
+from Communication.Connection import UDPConnection
+from Encryption.Configuration import RSAConfiguration
+
+from Settings import SETTINGS
+
+
+# initialize configurations for communication and encryption
+connection = UDPConnection(is_server=False,
+                           signaling_server=('signaling-server.com', 8080))
+encryption = RSAConfiguration(is_initiator=True)
+
+# initialize chat and wait for connections
+chat = Chat(connection=connection, encryption=encryption)
+chat.wait_for_connection()
+
+# initialize and start interactor
+interactor = ConsoleInteractor(chat)
+interactor.interaction_loop()
+
+
+
+```
