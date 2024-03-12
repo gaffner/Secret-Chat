@@ -93,7 +93,7 @@ interactor.interaction_loop()
 
 ## Secret Chat Components
 
-| Component    |                                                                                                   Job                                                                                                   |                       Implementations |
+| Component    |                                                                                                 Purpose                                                                                                 |                       Implementations |
 |--------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|--------------------------------------:|
 | Communicator |                                                 In charge of communicating with the target peer. The<br/>only component which uses network capabilities                                                 |   TCPCommunicator<br/>UDPCommunicator |
 | Encryptor    |                                                               In charge of encrypting and decrypting<br/>incoming and outcoming messages                                                                |      RSAEncryptor<br/>PseudoEncryptor |
