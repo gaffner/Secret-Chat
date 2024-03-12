@@ -11,7 +11,7 @@ def main():
     # initialize configurations for communication and encryption
     connection = UDPConnection(is_server=False,
                                signaling_server=(SETTINGS['communication']['udp']['signaling server'], 8080))
-    encryption = RSAConfiguration(is_initiator=True)
+    encryption = RSAConfiguration(is_initiator=False)
 
     # initialize chat and wait for connections
     chat = Chat(connection=connection, encryption=encryption)
