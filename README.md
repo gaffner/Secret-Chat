@@ -101,7 +101,5 @@ interactor.interaction_loop()
 | Interactor   | In charge of communicate with the end user. Currently the only implementation is the `ConsoleInteractor`,but other interactors (for example `GraphicInteractor`, or `ReactInteractor`, or whatever) can easily by implemented. |                   ConsoleInteractor |
 | Chat         |                                In charge of the end to end message process. This component gathers most of the other components, and use them when needed. Contained inside the `Interactor` .                                 |                                Chat |
 
-<br><br>
 The component of the project also described in the bellow flowchart:
-<br><br><br>
 ![image](https://i.imgur.com/UYFOYKI.png)
