@@ -21,7 +21,8 @@ variety of communication and encryption types.
 
 * <b>Client Server Architecture</b> - Regular Client-Server mode, over <i>TCP</i> socket (just called `TCP` in
   the code for simpler naming) exists in the program to show her ability to be modular, and also to test other
-  modules (currently only encryption-related) without the need to use the more complicated way of communication, UDP Hole
+  modules (currently only encryption-related) without the need to use the more complicated way of communication, UDP
+  Hole
   punching.
   ![image](https://i.imgur.com/SP9BrSt.png)
 
@@ -73,8 +74,9 @@ from Encryption.Configuration import RSAConfiguration
 from Settings import SETTINGS
 
 # initialize configurations for communication and encryption
-connection = UDP connection(is_server=False,
-                           signaling_server=('signaling-server.com', 8080))
+connection = UDP
+connection(is_server=False,
+           signaling_server=('signaling-server.com', 8080))
 encryption = RSAConfiguration(is_initiator=True)
 
 # initialize chat and wait for connections
@@ -91,12 +93,12 @@ interactor.interaction_loop()
 
 ## Secret Chat Components
 
-| Component    |                                                                                                              Job                                                                                                               |                     Implementations |
-|--------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|------------------------------------:|
-| Communicator |                                                             In charge of communicating with the target peer.The<br/>only component which using network capabilities                                                              | TCPCommunicator<br/>UDPCommunicator |
-| Encryptor    |                                                                            In charge of encrypted and decrypting<br/>messages coming from the peer                                                                             |    RSAEncryptor<br/>PseudoEncryptor |
-| Interactor   | In charge of communicating with the end user. Currently, the only implementation is the `ConsoleInteractor`, but other interactors (for example `GraphicInteractor`, or `ReactInteractor`, or whatever) can easily be implemented. |                   ConsoleInteractor |
-| Chat         |                                In charge of the end-to-end message process. This component gathers most of the other components and uses them when needed. Contained inside the `Interactor`.                                 |                                Chat |
+| Component    |                                                                                                   Job                                                                                                   |                       Implementations |
+|--------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|--------------------------------------:|
+| Communicator |                                                 In charge of communicating with the target peer. The<br/>only component which uses network capabilities                                                 |   TCPCommunicator<br/>UDPCommunicator |
+| Encryptor    |                                                               In charge of encrypting and decrypting<br/>incoming and outcoming messages                                                                |      RSAEncryptor<br/>PseudoEncryptor |
+| Interactor   | In charge of communicating with the end user. Currently, the only implementation is the `ConsoleInteractor`, but other type of interactions (for example `GraphicInteractor`) can easily be implemented |                     ConsoleInteractor |
+| Chat         |                      In charge of the end-to-end message process. This component gathers most of the other components and uses them when needed. Contained inside the `Interactor`                      |                                  Chat |
 
 The components of the project also described in the bellow flowchart:
 ![image](https://i.imgur.com/UYFOYKI.png)
