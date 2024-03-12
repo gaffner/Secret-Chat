@@ -14,11 +14,8 @@ variety of communication and encryption types.
 > [!NOTE]
 > In order to use this communication technique, one need to setup the <i>Signaling Server</i>, located inside the
 > `Signaling` directory, on a server with at least one port exposed to the internet (for example, VPS).
-> The purpose of this server is to coordinate the NAT Hollowing porcess between the two peers. Currently, the code of
-> this
-> signaling server is basically a POC, and therefore not stable and scalable. It can easily be replaced by another
-> signaling server,
-> as it's protocol will be described later.
+> The purpose of this server is to coordinate the NAT Hollowing process between the two peers. Currently,
+> The implemented signaling server is just a POC.
 
 ![image](https://i.imgur.com/1RH4oua.png)
 
