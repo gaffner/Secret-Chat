@@ -38,10 +38,20 @@ handhskae process, and it goes as follows:
 ### How to use?
 ```bash
 pip install -r requirments.txt
+
+python -m examples.server
+python -m examples.client
 ```
-And then run the project using Pycharm/Visual code. The `server.py` and `client.py` in the examples directory simulates
+The `server.py` and `client.py` in the examples directory simulates
 Server and a Client, using the UDP Hole Punching communication method + RSA encryption.
-Of curse the communication type and encryption type can be changed very simply:
+Make sure the signaling server is up and running, and his address is written in the `settings` file under
+`signaling server` property.
+```bash
+python Signaling/main.py # The signaling POC Server
+```
+
+of curse the communication type and encryption type can be changed very simply. For example,
+setting communication to be UDP and RSA encryption:
 
 ```python
 from Chat import Chat
