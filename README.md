@@ -61,7 +61,7 @@ python -m examples.server
 2024-03-12 18:56:37.645 INFO Chat - do_handshake: Sending handshake stage from encryptor to peer
 2024-03-12 18:56:37.720 INFO Chat - do_handshake: Received handshake stage from client, send it to encryptor
 
-Client: hello from client
+Client: Hello from client
 You: Hello from server
 ```
 ```bash
@@ -77,7 +77,7 @@ python -m examples.client
 2024-03-12 09:56:37.592 INFO Chat - do_handshake: Received handshake stage from client, send it to encryptor
 2024-03-12 09:56:37.639 INFO Chat - do_handshake: Sending handshake stage from encryptor to peer
 
-You: hello from client
+You: Hello from client
 Client: Hello from server
 ```
 
