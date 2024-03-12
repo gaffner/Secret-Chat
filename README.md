@@ -5,12 +5,6 @@ variety of communication and encryption types.
 
 ### Supported communications:
 
-* <b>Client Server Architecture</b> - Regular Client-Server mode, over <i>TCP</i> socket (called just `TCP` in
-  the code for simpler name) Exists in the program only to show her ability to be modular, and also to test other
-  modules
-  (currently only encryption-related) without the need to use the more complicated way of communication, UDP Hole
-  punching.
-  ![image](https://i.imgur.com/SP9BrSt.png)
 * <b>NAT Hollowing</b> - Peer to Peer Communication over UDP socket. The "Server" Hollow his NAT table,
   and then the "client" communicate to him over this "Hole". This communication mode allows peers that are behind
   NAT Tables (like most of the end users) to communicate directly, without the need of middle server, and therefor the
@@ -25,8 +19,15 @@ variety of communication and encryption types.
 > signaling server is basically a POC, and therefore not stable and scalable. It can easily be replaced by another
 > signaling server,
 > as it's protocol will be described later.
->
+
 ![image](https://i.imgur.com/1RH4oua.png)
+
+* <b>Client Server Architecture</b> - Regular Client-Server mode, over <i>TCP</i> socket (called just `TCP` in
+  the code for simpler name) Exists in the program only to show her ability to be modular, and also to test other
+  modules
+  (currently only encryption-related) without the need to use the more complicated way of communication, UDP Hole
+  punching.
+  ![image](https://i.imgur.com/SP9BrSt.png)
 
 ### Supported Encryption
 
@@ -60,7 +61,7 @@ Make sure the signaling server is up and running, and his address is written in 
 `signaling server` property.
 
 ```bash
-python Signaling/main.py # The signaling POC Server
+python Signaling/main.py # POC Server
 ```
 
 of curse the communication type and encryption type can be changed very simply. For example,
@@ -101,5 +102,5 @@ interactor.interaction_loop()
 | Interactor   | In charge of communicate with the end user. Currently the only implementation is the `ConsoleInteractor`,but other interactors (for example `GraphicInteractor`, or `ReactInteractor`, or whatever) can easily by implemented. |                   ConsoleInteractor |
 | Chat         |                                In charge of the end to end message process. This component gathers most of the other components, and use them when needed. Contained inside the `Interactor` .                                 |                                Chat |
 
-The component of the project also described in the bellow flowchart:
+The components of the project also described in the bellow flowchart:
 ![image](https://i.imgur.com/UYFOYKI.png)
