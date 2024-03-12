@@ -5,16 +5,16 @@ variety of communication and encryption types.
 
 ### Supported communications:
 
-* <b>NAT Hollowing</b> - Peer to Peer Communication over UDP socket. The "Server" Hollow his NAT table,
-  and then the "client" communicate to him over this "Hole". This communication mode allows peers that are behind
-  NAT Tables (like most of the end users) to communicate directly, without the need of middle server, and therefor the
-  most secured.
+* <b>NAT Hollowing</b> - Peer to Peer Communication over UDP socket. The "Server" follows his NAT table,
+  and then the "client" communicates to him over this "Hole". This communication mode allows peers who are behind
+  NAT Tables (like most of the end users) communicate directly, without the need for a middle server, and therefore the
+  most secure.
   <br><br>
 
 > [!NOTE]
-> In order to use this communication technique, one need to setup the <i>Signaling Server</i>, located inside the
+> In order to use this communication technique, one needs to set up the <i>Signaling Server</i>, located inside the
 > `Signaling` directory, on a server with at least one port exposed to the internet (for example, VPS).
-> The purpose of this server is to coordinate the NAT Hollowing process between the two peers. Currently,
+> The purpose of this server is to coordinate the NAT following process between the two peers. Currently,
 > The implemented signaling server is just a POC.
 
 ![image](https://i.imgur.com/1RH4oua.png)
@@ -28,22 +28,22 @@ variety of communication and encryption types.
 
 ### Supported Encryption
 
-* <b>RSA</b> - the recommended way of encryption. This encryption usa RSA for the keys exchange part, and then using AES
+* <b>RSA</b> - the recommended way of encryption. This encryption uses RSA for the key exchange part and then uses AES
   to encrypt the session communication. All the information needed in order to encrypt the session is exchanged during
   the
-  handhskae process, and it goes as follows:
-    1. The server generate pair of RSA keys, private and public
-    2. The client generate 16 bytes of symmetric AES key
-    3. The server send the public key to the client
-    4. The client encrypt his session key using the given public key, and send the encrypted result to the server
-    5. The server decrypt the encrypted session key using his private key, and from now on the communication will be
+  handshake process, and it goes as follows:
+    1. The server generates a pair of RSA keys, private and public
+    2. The client generates 16 bytes of symmetric AES key
+    3. The server sends the public key to the client
+    4. The client encrypts his session key using the given public key and sends the encrypted result to the server
+    5. The server decrypts the encrypted session key using its private key, and from now on the communication will be
        encrypted using this key
 
 ![image](https://i.imgur.com/QjfOJKK.png)
 
-* <b>Pseudo Encryption</b> - Used mostly for communication tests, without the need to use the complex RSA encryption.
+* <b>Pseudo Encryption</b> - Used mostly for communication tests, without the need to use complex RSA encryption.
 
-### How to use?
+### How to use it?
 
 ```bash
 pip install -r requirments.txt
@@ -52,16 +52,16 @@ python -m examples.server
 python -m examples.client
 ```
 
-The `server.py` and `client.py` in the examples directory simulates
+The `server.py` and `client.py` in the examples directory simulate
 Server and a Client, using the UDP Hole Punching communication method + RSA encryption.
 Make sure the signaling server is up and running, and his address is written in the `settings` file under
-`signaling server` property.
+the `signaling server` property.
 
 ```bash
 python Signaling/main.py # POC Server
 ```
 
-of curse the communication type and encryption type can be changed very simply. For example,
+of course, the communication type and encryption type can be changed very simply. For example,
 setting communication to be UDP and RSA encryption:
 
 ```python
@@ -74,7 +74,7 @@ from Encryption.Configuration import RSAConfiguration
 from Settings import SETTINGS
 
 # initialize configurations for communication and encryption
-connection = UDPConnection(is_server=False,
+connection = UDP connection(is_server=False,
                            signaling_server=('signaling-server.com', 8080))
 encryption = RSAConfiguration(is_initiator=True)
 
@@ -82,7 +82,7 @@ encryption = RSAConfiguration(is_initiator=True)
 chat = Chat(connection=connection, encryption=encryption)
 chat.wait_for_connection()
 
-# initialize and start interactor
+# Initialize and start the interactor
 interactor = ConsoleInteractor(chat)
 interactor.interaction_loop()
 
@@ -94,10 +94,10 @@ interactor.interaction_loop()
 
 | Component    |                                                                                                              Job                                                                                                               |                     Implementations |
 |--------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|------------------------------------:|
-| Communicator |                                                             In charge of communicate with the target peer.The<br/>only component which using network capabilities                                                              | TCPCommunicator<br/>UDPCommunicator |
+| Communicator |                                                             In charge of communicating with the target peer.The<br/>only component which using network capabilities                                                              | TCPCommunicator<br/>UDPCommunicator |
 | Encryptor    |                                                                            In charge of encrypted and decrypting<br/>messages coming from the peer                                                                             |    RSAEncryptor<br/>PseudoEncryptor |
-| Interactor   | In charge of communicate with the end user. Currently the only implementation is the `ConsoleInteractor`,but other interactors (for example `GraphicInteractor`, or `ReactInteractor`, or whatever) can easily by implemented. |                   ConsoleInteractor |
-| Chat         |                                In charge of the end to end message process. This component gathers most of the other components, and use them when needed. Contained inside the `Interactor` .                                 |                                Chat |
+| Interactor   | In charge of communicating with the end user. Currently, the only implementation is the `ConsoleInteractor`, but other interactors (for example `GraphicInteractor`, or `ReactInteractor`, or whatever) can easily be implemented. |                   ConsoleInteractor |
+| Chat         |                                In charge of the end-to-end message process. This component gathers most of the other components and uses them when needed. Contained inside the `Interactor`.                                 |                                Chat |
 
 The components of the project also described in the bellow flowchart:
 ![image](https://i.imgur.com/UYFOYKI.png)
