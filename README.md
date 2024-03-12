@@ -47,9 +47,38 @@ variety of communication and encryption types.
 
 ```bash
 pip install -r requirments.txt
-
+```
+```bash
 python -m examples.server
+
+2024-03-12 18:56:06.352 INFO UDPCommunicator - send_signals: Connecting to signaling server
+2024-03-12 18:56:06.568 DEBUG connectionpool - _new_conn: Starting new HTTP connection (1): ifconfig.me:80
+2024-03-12 18:56:06.739 DEBUG connectionpool - _make_request: http://ifconfig.me:80 "GET / HTTP/1.1" 200 14
+2024-03-12 18:56:06.740 INFO UDPCommunicator - send_signals: Sent ip and port to signaling server
+2024-03-12 18:56:32.467 INFO UDPCommunicator - send_signals: Received peer {'ip': '98.137.11.164', 'port': 17228} from signaling server
+2024-03-12 18:56:37.601 INFO UDPCommunicator - _server_udp_hollow: Received b'Hello' from ('98.137.11.164', 17228)
+2024-03-12 18:56:37.601 INFO Chat - do_handshake: Starting handshake process
+2024-03-12 18:56:37.645 INFO Chat - do_handshake: Sending handshake stage from encryptor to peer
+2024-03-12 18:56:37.720 INFO Chat - do_handshake: Received handshake stage from client, send it to encryptor
+
+Client: hello from client
+You: Hello from server
+```
+```bash
 python -m examples.client
+
+2024-03-12 09:56:31.357 INFO UDPCommunicator - send_signals: Connecting to signaling server
+2024-03-12 09:56:31.732 DEBUG connectionpool - _new_conn: Starting new HTTP connection (1): ifconfig.me:80
+2024-03-12 09:56:32.186 DEBUG connectionpool - _make_request: http://ifconfig.me:80 "GET / HTTP/1.1" 200 11
+2024-03-12 09:56:32.186 INFO UDPCommunicator - send_signals: Sent ip and port to signaling server
+2024-03-12 09:56:32.435 INFO UDPCommunicator - send_signals: Received peer {'ip': '140.82.121.3', 'port': 17226} from signaling server
+2024-03-12 09:56:37.561 INFO UDPCommunicator - _client_udp_hollow: Received b'Hello' from ('140.82.121.3', 17226)
+2024-03-12 09:56:37.561 INFO Chat - do_handshake: Starting handshake process
+2024-03-12 09:56:37.592 INFO Chat - do_handshake: Received handshake stage from client, send it to encryptor
+2024-03-12 09:56:37.639 INFO Chat - do_handshake: Sending handshake stage from encryptor to peer
+
+You: hello from client
+Client: Hello from server
 ```
 
 The `server.py` and `client.py` in the examples directory simulates
@@ -58,7 +87,7 @@ make sure the signaling server is up and running, and the address of it is writt
 the `signaling server` property.
 
 ```bash
-python Signaling/main.py # POC Server
+python Signaling/main.py # POC
 ```
 
 of course, the communication type and encryption type can be changed very simply. for example,
